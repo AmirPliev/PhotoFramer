@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
 import MyDivider from "@/components/MyDivider";
 
+import { Host } from "react-native-portalize";
+
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import DisplayTime from "@/components/settings/DisplayTime";
@@ -12,17 +14,19 @@ type Settings = {
 
 export default function Settings() {
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={styles.titleContainer}>Slide Show</ThemedText>
+    <Host>
+      <ThemedView style={styles.container}>
+        <ThemedText style={styles.titleContainer}>Slide Show</ThemedText>
+        <MyDivider />
 
-      <MyDivider />
+        <DisplayTime />
 
-      <DisplayTime />
+        <ThemedText style={styles.titleContainer}>Source Folder</ThemedText>
+        <MyDivider />
 
-      <ThemedText style={styles.titleContainer}>Source Folder</ThemedText>
-      <MyDivider />
-      <FolderSelector />
-    </ThemedView>
+        <FolderSelector />
+      </ThemedView>
+    </Host>
   );
 }
 

@@ -6,6 +6,7 @@ export default function MyDivider() {
   return (
     <View
       style={{
+        zIndex: 1,
         marginHorizontal: 16,
         borderBottomColor: textColor,
         borderBottomWidth: StyleSheet.hairlineWidth,

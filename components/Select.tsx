@@ -1,5 +1,7 @@
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useState } from "react";
+import { Portal } from "react-native-portalize";
+
 import { ThemedText } from "@/components/ThemedText";
 import BottomSheet, { BottomSheetMethods } from "@devvie/bottom-sheet";
 import RadioButton from "./RadioButton";
@@ -56,66 +58,72 @@ export default function Select({
         {children}
       </TouchableOpacity>
 
-      <BottomSheet
-        ref={sheetRef}
-        height="80%"
-        style={{
-          backgroundColor: backgroundColor,
-        }}
-      >
-        <ThemedText style={styles.header}>
-          How long should an image be shown?
-        </ThemedText>
-
-        {options.map((option) => (
-          <TouchableOpacity
-            style={styles.sheetItem}
-            key={option.value}
-            onPress={() => {
-              setCurrentOption(option);
-              sheetRef.current?.close();
-            }}
-          >
-            <ThemedText>{option.label}</ThemedText>
-            <RadioButton selected={currentOption.value === option.value} />
-          </TouchableOpacity>
-        ))}
-
-        <ThemedView
+      <Portal>
+        <BottomSheet
+          ref={sheetRef}
+          // containerHeight="100%"
+          height="80%"
           style={{
-            flexDirection: "row",
-            width: "100%",
-            paddingHorizontal: 24,
-            alignItems: "center",
-            gap: 12,
+            zIndex: 100,
+            backgroundColor: backgroundColor,
+            position: "absolute",
+            bottom: 0,
           }}
         >
-          <TextInput
+          <ThemedText style={styles.header}>
+            How long should an image be shown?
+          </ThemedText>
+
+          {options.map((option) => (
+            <TouchableOpacity
+              style={styles.sheetItem}
+              key={option.value}
+              onPress={() => {
+                setCurrentOption(option);
+                sheetRef.current?.close();
+              }}
+            >
+              <ThemedText>{option.label}</ThemedText>
+              <RadioButton selected={currentOption.value === option.value} />
+            </TouchableOpacity>
+          ))}
+
+          <ThemedView
             style={{
-              ...styles.input,
-              color: textColor,
-              borderBottomColor: textColor,
-            }}
-            placeholder="Custom"
-            placeholderTextColor={textColor}
-            keyboardType="numeric"
-            cursorColor={textColor}
-          />
-
-          <ThemedText>minutes</ThemedText>
-
-          <TouchableOpacity
-            onPress={() => {
-              setCurrentOption({
-                label: "Custom",
-                value: 0,
-              });
+              flexDirection: "row",
+              width: "100%",
+              paddingHorizontal: 24,
+              alignItems: "center",
+              gap: 12,
             }}
           >
-            <RadioButton selected={currentOption.value === 0} />
-          </TouchableOpacity>
-        </ThemedView>
-      </BottomSheet>
+            <TextInput
+              style={{
+                ...styles.input,
+                color: textColor,
+                borderBottomColor: textColor,
+              }}
+              placeholder="Custom"
+              placeholderTextColor={textColor}
+              keyboardType="numeric"
+              cursorColor={textColor}
+            />
+
+            <ThemedText>minutes</ThemedText>
+
+            <TouchableOpacity
+              onPress={() => {
+                setCurrentOption({
+                  label: "Custom",
+                  value: 0,
+                });
+              }}
+            >
+              <RadioButton selected={currentOption.value === 0} />
+            </TouchableOpacity>
+          </ThemedView>
+        </BottomSheet>
+      </Portal>
     </>
   );
 }
