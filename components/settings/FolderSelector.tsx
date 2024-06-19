@@ -1,26 +1,27 @@
-import { View, Text } from "react-native";
 import React from "react";
-import * as MediaLibrary from "expo-media-library";
-import { useState } from "react";
+import { View, Button, Alert } from "react-native";
+import DocumentPicker from "react-native-document-picker";
 
-export default function FolderSelector() {
-  const [albums, setAlbums] = useState(null);
-  const [permissionResponse, requestPermission] = MediaLibrary.usePermissions();
-
-  async function getAlbums() {
-    if (permissionResponse.status !== "granted") {
-      await requestPermission();
+const DirectoryPicker = () => {
+  const pickDirectory = async () => {
+    try {
+      const result = await DocumentPicker.pickDirectory();
+      const directoryUri = decodeURIComponent(result.uri);
+      console.log("Selected directory: ", directoryUri);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        Alert.alert("Cancelled", "Directory selection was cancelled");
+      } else {
+        Alert.alert("Error", "An error occurred: " + JSON.stringify(err));
+      }
     }
-    const fetchedAlbums = await MediaLibrary.getAlbumsAsync({
-      includeSmartAlbums: true,
-    });
-
-    setAlbums(fetchedAlbums);
-  }
+  };
 
   return (
     <View>
-      <Text>FolderSelector</Text>
+      <Button title="Pick Directory" onPress={pickDirectory} />
     </View>
   );
-}
+};
+
+export default DirectoryPicker;
