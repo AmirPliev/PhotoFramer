@@ -39,8 +39,6 @@ export default function RootLayout() {
     return null;
   }
 
-  console.log(fontsLoaded);
-
   return (
     <View
       onLayout={onLayoutRootView}

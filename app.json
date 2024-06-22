@@ -18,7 +18,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.amixx.PhotoFramer"
@@ -33,7 +33,11 @@
       [
         "expo-font",
         {
-          "fonts": ["/assets/fonts/JosefinNormal.ttf"]
+          "fonts": [
+            "./assets/fonts/JosefinNormal.ttf",
+            "./assets/fonts/JosefinBold.ttf",
+            "./assets/fonts/JosefinItalic.ttf"
+          ]
         }
       ]
     ],
