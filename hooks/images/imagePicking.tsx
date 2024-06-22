@@ -1,5 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
+import { Asset } from "expo-media-library";
 
 export async function selectImages(): Promise<string[]> {
   const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -14,7 +15,7 @@ export async function selectImages(): Promise<string[]> {
     quality: 1, // Optional: Adjust image quality (0-1)
   });
 
-  if (pickerResult.cancelled) {
+  if (pickerResult.canceled) {
     console.error("Image picking cancelled");
     return [];
   }
@@ -27,7 +28,7 @@ export async function selectImages(): Promise<string[]> {
 }
 
 export async function saveImage(images: string[]) {
-  let createdAssets = [];
+  let createdAssets: Asset[] = [];
   for (const image of images) {
     const createdAsset = await MediaLibrary.createAssetAsync(image);
     if (createdAsset) {
@@ -47,9 +48,16 @@ export async function saveImage(images: string[]) {
     result = await MediaLibrary.createAlbumAsync(
       "PhotoFramerImages",
       createdAssets[0],
-    ).catch((err) => {
-      console.error("Error creating album:", err);
-    });
+    )
+      .then(async () => {
+        await MediaLibrary.deleteAssetsAsync(createdAssets[0]).catch((err) => {
+          console.error("Error deleting assets:", err);
+        });
+      })
+
+      .catch((err) => {
+        console.error("Error creating album:", err);
+      });
   }
 
   if (!result) {
@@ -57,6 +65,8 @@ export async function saveImage(images: string[]) {
   }
 
   createdAssets.shift();
+
+  console.log(createdAssets);
 
   await MediaLibrary.addAssetsToAlbumAsync(
     createdAssets,

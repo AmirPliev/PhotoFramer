@@ -17,7 +17,7 @@ export function ThemedText({
   return (
     <Text
       style={[
-        { color: Colors.text },
+        { color: Colors.text, fontFamily: "Josefin" },
         type === "default" ? styles.default : undefined,
         type === "title" ? styles.title : undefined,
         type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,

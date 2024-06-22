@@ -67,9 +67,10 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    padding: 16,
-    fontSize: 16,
-    fontWeight: "bold",
+    paddingHorizontal: 24,
+    paddingBottom: 16,
+    fontSize: 20,
+    fontFamily: "JosefinBold",
   },
 
   sheetItem: {

@@ -1,8 +1,6 @@
 import { StyleSheet } from "react-native";
-import MyDivider from "@/components/MyDivider";
 import { StatusBar } from "expo-status-bar";
 import { Host } from "react-native-portalize";
-import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import DisplayTime from "@/components/Settings/DisplayTime";
 import FolderSelector from "@/components/Settings/FolderSelector";

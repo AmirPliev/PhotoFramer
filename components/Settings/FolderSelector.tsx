@@ -1,4 +1,4 @@
-import { Image, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Asset } from "expo-media-library";
 import { ThemedText } from "../ThemedText";
 import ConfigButton from "./ConfigButton";
@@ -6,6 +6,7 @@ import { useLocalImages } from "@/hooks/images/useLocalImages";
 import Select from "../Select";
 import { ThemedView } from "../ThemedView";
 import { SheetButton } from "../Select";
+import ImageElement from "./ImageElement";
 
 const ImagePickerComponent = () => {
   const { currentImages, pickImage, deleteImage } = useLocalImages();
@@ -25,20 +26,22 @@ const ImagePickerComponent = () => {
         <ThemedText style={styles.imagesTitle}>Images</ThemedText>
 
         <ThemedText style={styles.removeMessage}>
-          Touch an image to remove it
+          Tap an image to remove it
         </ThemedText>
 
-        <ScrollView contentContainerStyle={styles.imageContainer}>
-          {currentImages.map((image: Asset) => (
-            <TouchableOpacity
-              style={styles.imageButton}
-              key={image.id}
-              onPress={() => deleteImage(image)}
-            >
-              <Image source={{ uri: image.uri }} style={styles.image} />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+        {currentImages.length === 0 ? (
+          <ThemedText style={styles.noImages}>No images selected</ThemedText>
+        ) : (
+          <ScrollView contentContainerStyle={styles.imageContainer}>
+            {currentImages.map((image: Asset) => (
+              <ImageElement
+                key={image.id}
+                image={image}
+                deleteImage={deleteImage}
+              />
+            ))}
+          </ScrollView>
+        )}
       </ThemedView>
     </Select>
   );
@@ -49,13 +52,13 @@ export default ImagePickerComponent;
 const styles = StyleSheet.create({
   imagesTitle: {
     paddingHorizontal: 24,
-    fontWeight: "bold",
+    fontFamily: "JosefinBold",
     marginTop: 8,
   },
 
   removeMessage: {
     paddingHorizontal: 24,
-    fontStyle: "italic",
+    fontFamily: "JosefinItalic",
   },
 
   imageContainer: {
@@ -76,5 +79,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 8,
+  },
+
+  noImages: {
+    paddingHorizontal: 24,
+    fontFamily: "Josefin",
+    width: "100%",
+    textAlign: "center",
+    paddingVertical: 32,
   },
 });

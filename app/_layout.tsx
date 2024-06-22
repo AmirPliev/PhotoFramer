@@ -1,12 +1,9 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback } from "react";
 import { TabBarIcon } from "@/components/Navigation/TabBarIcon";
+import { View } from "react-native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { ConfigsProvider } from "@/hooks/useConfigs";
@@ -19,61 +16,80 @@ import Colors from "@/constants/Colors";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [loaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Josefin: require("../assets/fonts/JosefinNormal.ttf"),
+    JosefinBold: require("../assets/fonts/JosefinBold.ttf"),
+    JosefinItalic: require("../assets/fonts/JosefinItalic.ttf"),
   });
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
-  if (!loaded) {
+  if (!fontsLoaded) {
     return null;
   }
 
+  console.log(fontsLoaded);
+
   return (
-    <ConfigsProvider>
-      <LocalImagesProvider>
-        <Stack
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: Colors.accent,
-            },
-            headerTintColor: Colors.lightText,
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        >
-          <Stack.Screen
-            name="index"
-            options={{
-              title: "Frame",
-              headerShown: false,
+    <View
+      onLayout={onLayoutRootView}
+      style={{
+        flex: 1,
+        backgroundColor: Colors.background,
+      }}
+    >
+      <ConfigsProvider>
+        <LocalImagesProvider>
+          <Stack
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: Colors.accent,
+              },
+              headerTintColor: Colors.lightText,
+              headerTitleStyle: {
+                fontFamily: "JosefinBold",
+              },
             }}
-          />
+          >
+            <Stack.Screen
+              name="index"
+              options={{
+                title: "Frame",
+                headerShown: false,
+              }}
+            />
 
-          <Stack.Screen
-            name="settings"
-            options={{
-              title: "Settings",
-              headerLeft: () => (
-                <TabBarIcon
-                  name="arrow-back"
-                  color={Colors.lightText}
-                  size={30}
-                  style={{ marginHorizontal: 8 }}
-                  onPress={() => router.back()}
-                />
-              ),
-            }}
-          />
+            <Stack.Screen
+              name="settings"
+              options={{
+                title: "Settings",
+                headerLeft: () => (
+                  <TabBarIcon
+                    name="arrow-back"
+                    color={Colors.lightText}
+                    size={30}
+                    style={{ marginHorizontal: 8 }}
+                    onPress={() => router.back()}
+                  />
+                ),
+              }}
+            />
 
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </LocalImagesProvider>
-    </ConfigsProvider>
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </LocalImagesProvider>
+      </ConfigsProvider>
+    </View>
   );
 }
