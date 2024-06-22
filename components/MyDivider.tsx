@@ -7,7 +7,7 @@ export default function MyDivider() {
     <View
       style={{
         zIndex: 1,
-        marginHorizontal: 16,
+        // marginHorizontal: 16,
         borderBottomColor: textColor,
         borderBottomWidth: StyleSheet.hairlineWidth,
       }}

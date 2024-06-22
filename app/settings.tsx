@@ -1,12 +1,11 @@
 import { StyleSheet } from "react-native";
 import MyDivider from "@/components/MyDivider";
-
+import { StatusBar } from "expo-status-bar";
 import { Host } from "react-native-portalize";
-
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import DisplayTime from "@/components/settings/DisplayTime";
-import FolderSelector from "@/components/settings/FolderSelector";
+import DisplayTime from "@/components/Settings/DisplayTime";
+import FolderSelector from "@/components/Settings/FolderSelector";
 
 type Settings = {
   displayTime: number;
@@ -14,19 +13,16 @@ type Settings = {
 
 export default function Settings() {
   return (
-    <Host>
-      <ThemedView style={styles.container}>
-        <ThemedText style={styles.titleContainer}>Slide Show</ThemedText>
-        <MyDivider />
+    <>
+      <StatusBar hidden={false} style="light" />
 
-        <DisplayTime />
-
-        <ThemedText style={styles.titleContainer}>Source Folder</ThemedText>
-        <MyDivider />
-
-        <FolderSelector />
-      </ThemedView>
-    </Host>
+      <Host>
+        <ThemedView style={styles.container}>
+          <FolderSelector />
+          <DisplayTime />
+        </ThemedView>
+      </Host>
+    </>
   );
 }
 
@@ -35,12 +31,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     color: "#000",
   },
+
   container: {
-    flex: 1,
     height: "100%",
   },
+
   titleContainer: {
-    padding: 16,
+    marginTop: 16,
     paddingBottom: 8,
     fontSize: 22,
   },

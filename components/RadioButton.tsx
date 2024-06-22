@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import Colors from "@/constants/Colors";
 
 export default function RadioButton({
   style = {},
@@ -8,7 +8,6 @@ export default function RadioButton({
   style?: any;
   selected: boolean;
 }) {
-  const textColor = useThemeColor({}, "text");
   return (
     <View
       style={[
@@ -17,7 +16,7 @@ export default function RadioButton({
           width: 24,
           borderRadius: 12,
           borderWidth: 2,
-          borderColor: textColor,
+          borderColor: Colors.text,
           alignItems: "center",
           justifyContent: "center",
         },
@@ -30,7 +29,7 @@ export default function RadioButton({
             height: 12,
             width: 12,
             borderRadius: 6,
-            backgroundColor: textColor,
+            backgroundColor: Colors.text,
           }}
         />
       ) : null}
